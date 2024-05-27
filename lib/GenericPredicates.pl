@@ -32,3 +32,7 @@ foldLeft([H | T], Z, F, Res) :- copy_term(F, folder(H, Z, Res1, OP)), call(OP), 
 % e.g. Z = 5, Folder = folder(Y, X, Z, Z is X + Y)
 foldRight([], H, _, H).
 foldRight([H | T], Z, F, Res) :- foldRight(T, Z, F, Res2), copy_term(F, folder(Res2, H, Res, OP)), call(OP).
+
+map_folded(L, mapper(H, H2, OP), LO) :- foldRight(L, [], folder(Z, H, [H2 | Z], OP), LO).
+
+reduce_folded([H | T], reducer(X, Y, O, OP), L) :- foldLeft(T, H, folder(Y, X, O, OP), L).
